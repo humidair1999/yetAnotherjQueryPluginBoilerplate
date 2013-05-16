@@ -12,7 +12,9 @@
     var pluginNamespace = "JKYMARSH",
         // name/version of the plugin (come on, bro)
         pluginName = "testPlugin",
-        pluginVersion = "0.1.0";
+        pluginVersion = "0.1.0",
+        // empty object for containing our new jquery selector ($(":pluginName")) key/value
+        selectorObj = {};
 
     if (!$[pluginNamespace]) {
         $[pluginNamespace] = {};
@@ -25,6 +27,8 @@
             $element: $(element),
             options: options
         };
+
+        console.log(options);
 
         var _callbackSupport = function(callback) {
             //Checks to make sure the parameter passed in is a function
@@ -53,38 +57,33 @@
             return this;
         };
 
+        var someMethod = function() {
+            console.log("called someMethod");
+
+            return this;
+        };
+
         return {
-            create: create
+            create: create,
+            someMethod: someMethod
         }
     };
 
     // set default options for the plugin
     $[pluginNamespace][pluginName].defaultOptions = {
-        myDefaultValue: ""
+        someDefaultValue: ""
     };
 
     if (!$.fn[pluginNamespace + "_" + pluginName]) {
         $.fn[pluginNamespace + "_" + pluginName] = function(options) {
             // maintains chainability for all calling elements
             return this.each(function () {
-                var $element = $(this),
-                    plugin,
-                    obj = {};
+                var $element = $(this);
          
                 if (!$.data($element[0], pluginName)) { 
                     options = $.extend({}, $[pluginNamespace][pluginName].defaultOptions, options);
              
                     $.data($element[0], pluginName, new $[pluginNamespace][pluginName](this, options).create());
-     
-                    obj[pluginName] = function(elements) {
-                        // TODO: why in the fuck can I not consistently use .data methods?
-                        return $(elements).data(pluginName) !== undefined;
-                    };
-
-                    // adds custom jquery pseudo selector
-                    //  search for all DOM elements with plugin instances using:
-                    //      $(":pluginName").each(function() { });
-                    $.extend($.expr[":"], obj);
                 }
                 else {
                     console.warn("plugin with same name (" +
@@ -93,7 +92,6 @@
                         $element);
                 }
             });
- 
         };
     }
     else {
@@ -101,5 +99,15 @@
             [pluginNamespace + "_" + pluginName] +
             ") has already been loaded!");
     }
+
+    selectorObj[pluginName] = function(elements) {
+        // TODO: why in the fuck can I not consistently use .data methods?
+        return $(elements).data(pluginName) !== undefined;
+    };
+
+    // adds custom jquery pseudo selector
+    //  search for all DOM elements with plugin instances using:
+    //      $(":pluginName").each(function() { });
+    $.extend($.expr[":"], selectorObj);
 
 })(jQuery, window, document);

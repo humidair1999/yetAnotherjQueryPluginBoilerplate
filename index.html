@@ -66,13 +66,23 @@
 
         <h3>Plugin testbeds</h3>
 
-        <input type="text" id="test-input" />
+        <input type="text" id="test-input1" />
+        <input type="text" id="test-input2" />
+        <input type="text" id="test-input3" />
 
         <script src="js/libs/jquery-1.9.1.min.js"></script>
         <script src="js/jquery.yetanotherpluginboilerplate.js"></script>
 
         <script>
-            $("#test-input").JKYMARSH_testPlugin();
+            $("#test-input1").JKYMARSH_testPlugin();
+
+            $("#test-input2").JKYMARSH_testPlugin({
+                someNewOption: 65
+            });
+
+            $("#test-input3").JKYMARSH_testPlugin().data("testPlugin").someMethod().create(function() {
+                console.log("callback support and chaining");
+            });
 
             $(":testPlugin").each(function() {
                 console.log($(this));
