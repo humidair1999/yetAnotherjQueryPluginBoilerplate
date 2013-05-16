@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
+        <title>Yet Another jQuery Plugin Boilerplate</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
@@ -20,11 +20,59 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+        <h3>Goals/Aspirations</h3>
+
+        <ul>
+            <li>Namespacing(?)</li>
+            <li>Protects against multiple instantiations</li>
+            <li>jQuery pseudo-selector</li>
+            <li>Getter/setter for plugin options</li>
+            <li>Chaining support(?)</li>
+            <li>Uses module design pattern (provides private and public methods)</li>
+            <li>Ability to close/destroy plugin instance</li>
+            <li>Ability to define options using object or array of strings(?)</li>
+            <li>Callback hooks on plugin initialization/destruction(?)</li>
+        </ul>
+
+        <h3>Inspirations</h3>
+
+        <ul>
+            <li>
+                <a href="http://f6design.com/journal/2012/05/06/a-jquery-plugin-boilerplate/">
+                    http://f6design.com/journal/2012/05/06/a-jquery-plugin-boilerplate/
+                </a>
+            </li>
+            <li>
+                <a href="http://www.andrea-turri.com/jquery-plugin-boilerplate/">
+                    http://www.andrea-turri.com/jquery-plugin-boilerplate/
+                </a>
+            </li>
+            <li>
+                <a href="http://tomicloud.com/2013/01/js-jquery-boilerplates">
+                    http://tomicloud.com/2013/01/js-jquery-boilerplates
+                </a>
+            </li>
+            <li>
+                <a href="http://gregfranko.com/jq-boilerplate/">
+                    http://gregfranko.com/jq-boilerplate/
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/jquery-boilerplate/patterns">
+                    https://github.com/jquery-boilerplate/patterns
+                </a>
+            </li>
+        </ul>
+
+        <h3>Plugin testbeds</h3>
+
+        <input type="text" id="test-input" />
 
         <script src="js/libs/jquery-1.9.1.min.js"></script>
-        <script src="js/libs/moment.min.js"></script>
+        <script src="js/jquery.yetanotherpluginboilerplate.js"></script>
 
-        <script src="js/main.js"></script>
+        <script>
+            $("#test-input").JKYMARSH_testPlugin();
+        </script
     </body>
 </html>
