@@ -101,8 +101,12 @@
                     .val("plugin initialized");
             }).data("testPlugin").exampleMethod();
 
-            $("#test-input4").testPlugin().data("testPlugin").option("newValue", "666");
+            $("#test-input4").testPlugin().data("testPlugin").option("newValue", false);
             console.log($("#test-input4").data("testPlugin").option("newValue"));
+            $("#test-input4").data("testPlugin").option("newValue2", null);
+            console.log($("#test-input4").data("testPlugin").option("newValue2"));
+            $("#test-input4").data("testPlugin").option("newValue3", 666);
+            console.log($("#test-input4").data("testPlugin").option("newValue3"));
             $("#test-input4").data("testPlugin").destroy(function($element) {
                 $element
                     .css({"background": "red"})

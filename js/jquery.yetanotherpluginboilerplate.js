@@ -50,7 +50,8 @@
                     //  method after destroying the instance?
                 },
                 option: function(key, value) {
-                    if (value) {
+                    // use triple equals to allow setting of falsy values (false, null, etc.)
+                    if (value !== undefined) {
                         base.options[key] = value;
                     }
                     else {
