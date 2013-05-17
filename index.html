@@ -80,12 +80,10 @@
             $("#test-input2").testPlugin({
                 someNewOption: 65
             }, function() {
-                //console.log("do something on creation");
+                console.log("do something on creation");
             });
 
-            $("#test-input3").testPlugin().data("testPlugin").someMethod().create(function() {
-                console.log("plugin has been created: ", this);
-            });
+            $("#test-input3").testPlugin().data("testPlugin").someMethod();
 
             $("#test-input4").testPlugin().data("testPlugin").option("newValue", "666");
             console.log($("#test-input4").data("testPlugin").option("newValue"));

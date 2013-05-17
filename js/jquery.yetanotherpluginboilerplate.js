@@ -19,54 +19,43 @@
             someOtherDefaultValue: "a string"
         },
         // plugin constructor using module design pattern
-        Plugin = function(element, options) {
-            // To avoid scope issues, use 'base' instead of 'this'
-            // to reference this class from internal events and functions.
+        Plugin = function(element, options, callback) {
             var base = {
-                $element: $(element),
-                options: options
-            };
-
-            console.log(options);
-
-            var _fireCallback = function(callback) {
-                //Checks to make sure the parameter passed in is a function
-                if($.isFunction(callback)) {
-                    /*
-                    Calls the method passed in as a parameter and sets the context to
-                    the `Plugin` object, which is stored in the jQuery `data()`
-                    method.  This allows for the `this` context to reference the
-                    Plugin API Methods in the callback function. The original element
-                    that called the plugin(wrapped in a jQuery object) is the only
-                    parameter passed back to the callback
-                    */
-                    callback.call(base.$element.data(pluginName), base.$element);
-                }
-     
-                return this;
-            };
-
-            var someMethod = function() {
-                console.log("called someMethod");
-
-                return this;
-            };
-
-            return {
-                create: function(callback) {
+                    $element: $(element),
+                    options: options
+                },
+                _fireCallback = function(callback) {
+                    if($.isFunction(callback)) {
+                        /*
+                        Calls the method passed in as a parameter and sets the context to
+                        the `Plugin` object, which is stored in the jQuery `data()`
+                        method.  This allows for the `this` context to reference the
+                        Plugin API Methods in the callback function. The original element
+                        that called the plugin(wrapped in a jQuery object) is the only
+                        parameter passed back to the callback
+                        */
+                        callback.call(base.$element.data(pluginName), base.$element);
+                    }
+         
+                    return this;
+                },
+                _initialize = (function(callback) {
                     // Put your initialization code here
 
                     //Provides callback function support
                     _fireCallback(callback);
-                       
-                    return this;
-                },
+                })(callback);
+
+            console.log(options);
+
+            return {
                 destroy: function(callback) {
                     base.$element.removeData(pluginName);
 
                     _fireCallback(callback);
                        
-                    return this;
+                    // we don't chain 'this' here because why the hell would you call a plugin
+                    //  method after destroying the instance?
                 },
                 option: function(key, value) {
                     if (value) {
@@ -78,7 +67,11 @@
 
                     console.log(base.options);
                 },
-                someMethod: someMethod
+                someMethod: function() {
+                    console.log("called someMethod");
+
+                    return this;
+                }
             }
         };
 
@@ -91,7 +84,7 @@
                 if (!$.data($element[0], pluginName)) { 
                     options = $.extend({}, defaultOptions, options);
              
-                    $.data($element[0], pluginName, new Plugin(this, options).create(callback));
+                    $.data($element[0], pluginName, new Plugin(this, options, callback));
                 }
                 else {
                     console.warn("plugin with same name (" +
