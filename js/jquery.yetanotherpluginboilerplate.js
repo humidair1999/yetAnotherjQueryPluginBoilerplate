@@ -25,15 +25,7 @@
                     options: options
                 },
                 _fireCallback = function(callback) {
-                    if($.isFunction(callback)) {
-                        /*
-                        Calls the method passed in as a parameter and sets the context to
-                        the `Plugin` object, which is stored in the jQuery `data()`
-                        method.  This allows for the `this` context to reference the
-                        Plugin API Methods in the callback function. The original element
-                        that called the plugin(wrapped in a jQuery object) is the only
-                        parameter passed back to the callback
-                        */
+                    if ($.isFunction(callback)) {
                         callback.call(base.$element.data(pluginName), base.$element);
                     }
          
@@ -67,8 +59,8 @@
 
                     console.log(base.options);
                 },
-                someMethod: function() {
-                    console.log("called someMethod");
+                exampleMethod: function() {
+                    console.log("called exampleMethod");
 
                     return this;
                 }
@@ -77,6 +69,13 @@
 
     if (!$.fn[pluginName]) {
         $.fn[pluginName] = function(options, callback) {
+            // if first passed-in param is a function, it means the user has omitted 'options'
+            //  in lieu of a callback function. don't worry; the options extend() below will
+            //  ignore 'options' since it's not an object!
+            if ($.isFunction(options)) {
+                callback = options;
+            }
+
             // maintains chainability for all calling elements
             return this.each(function () {
                 var $element = $(this);

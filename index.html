@@ -23,15 +23,15 @@
         <h3>Goals/Aspirations</h3>
 
         <ul>
-            <li>Namespacing(?)</li>
-            <li>Protects against multiple instantiations</li>
-            <li>jQuery pseudo-selector</li>
-            <li>Getter/setter for plugin options</li>
-            <li>Chaining support(?)</li>
-            <li>Uses module design pattern (provides private and public methods)</li>
-            <li>Ability to close/destroy plugin instance</li>
-            <li>Ability to define options using object or array of strings(?)</li>
-            <li>Callback hooks on plugin initialization/destruction(?)</li>
+            <li>Namespacing - <strong>uses module pattern and notifies when jquery plugin function namespace is occupied</strong></li>
+            <li>Protects against multiple instantiations - <strong>DONE</strong></li>
+            <li>jQuery pseudo-selector - <strong>DONE</strong></li>
+            <li>Getter/setter for plugin options - <strong>DONE</strong></li>
+            <li>Chaining support - <strong>up to user when implementing public methods</strong></li>
+            <li>Uses module design pattern (provides private and public methods) - <strong>DONE</strong></li>
+            <li>Ability to close/destroy plugin instance - <strong>DONE</strong></li>
+            <li>Ability to define optional options or callback - <strong>DONE</strong></li>
+            <li>Callback hooks on plugin initialization/destruction - <strong>DONE</strong></li>
         </ul>
 
         <h3>Inspirations</h3>
@@ -66,33 +66,53 @@
 
         <h3>Plugin testbeds</h3>
 
-        <input type="text" id="test-input1" />
-        <input type="text" id="test-input2" />
-        <input type="text" id="test-input3" />
-        <input type="text" id="test-input4" />
+        <input type="text" id="test-input1" disabled />
+        <input type="text" id="test-input2" disabled />
+        <input type="text" id="test-input3" disabled />
+        <input type="text" id="test-input4" disabled />
+
+        <h3>DOM elements with plugin attached</h3>
+
+        <ul id="elements-with-plugin"></ul>
 
         <script src="js/libs/jquery-1.9.1.min.js"></script>
         <script src="js/jquery.yetanotherpluginboilerplate.js"></script>
 
         <script>
-            $("#test-input1").testPlugin();
+            $("#test-input1").testPlugin(function($element) {
+                $element
+                    .css({"background": "green"})
+                    .val("plugin initialized");
+            });
 
             $("#test-input2").testPlugin({
                 someNewOption: 65
-            }, function() {
+            }, function($element) {
                 console.log("do something on creation");
+
+                $element
+                    .css({"background": "green"})
+                    .val("plugin initialized");
             });
 
-            $("#test-input3").testPlugin().data("testPlugin").someMethod();
+            $("#test-input3").testPlugin(function($element) {
+                $element
+                    .css({"background": "green"})
+                    .val("plugin initialized");
+            }).data("testPlugin").exampleMethod();
 
             $("#test-input4").testPlugin().data("testPlugin").option("newValue", "666");
             console.log($("#test-input4").data("testPlugin").option("newValue"));
-            $("#test-input4").data("testPlugin").destroy(function() {
-                console.log("plugin has been removed: ", this);
+            $("#test-input4").data("testPlugin").destroy(function($element) {
+                $element
+                    .css({"background": "red"})
+                    .val("plugin destroyed");
             });
 
             $(":testPlugin").each(function() {
-                //console.log($(this));
+                $("#elements-with-plugin").append($("<li>").text($(this).attr("id")));
+
+                console.log($(this));
             });
         </script>
     </body>
