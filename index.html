@@ -69,24 +69,33 @@
         <input type="text" id="test-input1" />
         <input type="text" id="test-input2" />
         <input type="text" id="test-input3" />
+        <input type="text" id="test-input4" />
 
         <script src="js/libs/jquery-1.9.1.min.js"></script>
         <script src="js/jquery.yetanotherpluginboilerplate.js"></script>
 
         <script>
-            $("#test-input1").JKYMARSH_testPlugin();
+            $("#test-input1").testPlugin();
 
-            $("#test-input2").JKYMARSH_testPlugin({
+            $("#test-input2").testPlugin({
                 someNewOption: 65
+            }, function() {
+                //console.log("do something on creation");
             });
 
-            $("#test-input3").JKYMARSH_testPlugin().data("testPlugin").someMethod().create(function() {
-                console.log("callback support and chaining");
+            $("#test-input3").testPlugin().data("testPlugin").someMethod().create(function() {
+                console.log("plugin has been created: ", this);
+            });
+
+            $("#test-input4").testPlugin().data("testPlugin").option("newValue", "666");
+            console.log($("#test-input4").data("testPlugin").option("newValue"));
+            $("#test-input4").data("testPlugin").destroy(function() {
+                console.log("plugin has been removed: ", this);
             });
 
             $(":testPlugin").each(function() {
-                console.log($(this));
+                //console.log($(this));
             });
-        </script
+        </script>
     </body>
 </html>
